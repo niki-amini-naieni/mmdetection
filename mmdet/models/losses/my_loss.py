@@ -6,8 +6,6 @@ from .utils import weighted_loss
 
 def my_loss(pred, target):
     assert pred.size() == target.size() and target.numel() > 0
-    print("pred.shape: " + str(pred.shape))
-    print("target.shape: " + str(target.shape))
     box_centers_x_pred = pred[:, 0] + pred[:, 2] / 2
     box_centers_y_pred = pred[:, 1] + pred[:, 3] / 2
     box_centers_x_targ = target[:, 0] + target[:, 2] / 2
@@ -16,7 +14,6 @@ def my_loss(pred, target):
     pred = torch.stack([box_centers_x_pred, box_centers_y_pred], dim=-1)
     target = torch.stack([box_centers_x_targ, box_centers_y_targ], dim=-1)
     loss = torch.abs(pred - target)
-    print(loss.shape)
     return loss
 
 @MODELS.register_module()
