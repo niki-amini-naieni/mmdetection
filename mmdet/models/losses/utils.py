@@ -45,7 +45,6 @@ def weight_reduce_loss(loss: Tensor,
     Returns:
         Tensor: Processed loss values.
     """
-    print("weight.shape: " + str(weight.shape))
     # if weight is specified, apply element-wise weight
     if weight is not None:
         loss = loss * weight

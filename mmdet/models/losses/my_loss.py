@@ -4,9 +4,10 @@ import torch.nn as nn
 from mmdet.registry import MODELS
 from .utils import weighted_loss
 
-@weighted_loss
 def my_loss(pred, target):
     assert pred.size() == target.size() and target.numel() > 0
+    print("pred.shape: " + str(pred.shape))
+    print("target.shape: " + str(target.shape))
     box_centers_x_pred = pred[:, 0] + pred[:, 2] / 2
     box_centers_y_pred = pred[:, 1] + pred[:, 3] / 2
     box_centers_x_targ = target[:, 0] + target[:, 2] / 2
@@ -32,9 +33,7 @@ class MyLoss(nn.Module):
                 weight=None,
                 avg_factor=None,
                 reduction_override=None):
-        assert reduction_override in (None, 'none', 'mean', 'sum')
-        reduction = (
-            reduction_override if reduction_override else self.reduction)
+        
         loss_bbox = self.loss_weight * my_loss(
-            pred, target, weight, reduction=reduction, avg_factor=avg_factor)
+            pred, target).mean()
         return loss_bbox
