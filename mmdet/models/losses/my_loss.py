@@ -15,6 +15,7 @@ def my_loss(pred, target):
     pred = torch.stack([box_centers_x_pred, box_centers_y_pred], dim=-1)
     target = torch.stack([box_centers_x_targ, box_centers_y_targ], dim=-1)
     loss = torch.abs(pred - target)
+    print(loss.shape)
     return loss
 
 @MODELS.register_module()
