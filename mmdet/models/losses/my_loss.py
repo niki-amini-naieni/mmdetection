@@ -7,6 +7,8 @@ from .utils import weighted_loss
 @weighted_loss
 def my_loss(pred, target):
     assert pred.size() == target.size() and target.numel() > 0
+    print(target)
+    print(target.shape)
     loss = torch.abs(pred - target)
     return loss
 
