@@ -20,8 +20,6 @@ def l1_loss(pred: Tensor, target: Tensor) -> Tensor:
         return pred.sum() * 0
 
     assert pred.size() == target.size()
-    print("pred.shape: " + str(pred.shape))
-    print("target.shape: " + str(target.shape))
     loss = torch.abs(pred - target)
     return loss
 
@@ -71,9 +69,8 @@ class LocLoss(nn.Module):
         assert reduction_override in (None, 'none', 'mean', 'sum')
         reduction = (
             reduction_override if reduction_override else self.reduction)
-        print("weight.shape: " + str(weight.shape))
         loss_bbox = self.loss_weight * l1_loss(
-            pred, target, weight, reduction=reduction, avg_factor=avg_factor)
+            pred[:, :2], target[:, :2], weight[:, :2], reduction=reduction, avg_factor=avg_factor)
         return loss_bbox
     
 @TASK_UTILS.register_module()
@@ -140,7 +137,7 @@ class LocCost(BaseMatchCost):
         gt_bboxes = gt_bboxes / factor
         pred_bboxes = pred_bboxes / factor
 
-        print("pred_bboxes.shape: " + str(pred_bboxes.shape))
-        print("gt_bboxes.shape: " + str(pred_bboxes.shape))
-        bbox_cost = torch.cdist(pred_bboxes, gt_bboxes, p=1)
+        print("pred_bboxes: " + str(pred_bboxes))
+        print("gt_bboxes: " + str(pred_bboxes))
+        bbox_cost = torch.cdist(pred_bboxes[:, :2], gt_bboxes[:, :2], p=1)
         return bbox_cost * self.weight
