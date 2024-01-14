@@ -71,9 +71,6 @@ class ContrastiveEmbed(nn.Module):
         Returns:
             Tensor: Classification score.
         """
-        print("visual_feat.shape: " + str(visual_feat.shape))
-        print("text_feat.shape: " + str(text_feat.shape))
-        print("text_token_mask: " + str(text_token_mask))
         res = visual_feat @ text_feat.transpose(-1, -2)
         if isinstance(self.log_scale, nn.Parameter):
             res = res * self.log_scale.exp()
