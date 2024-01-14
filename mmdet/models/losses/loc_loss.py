@@ -137,7 +137,5 @@ class LocCost(BaseMatchCost):
         gt_bboxes = gt_bboxes / factor
         pred_bboxes = pred_bboxes / factor
 
-        print("pred_bboxes: " + str(pred_bboxes))
-        print("gt_bboxes: " + str(pred_bboxes))
         bbox_cost = torch.cdist(pred_bboxes[:, :2], gt_bboxes[:, :2], p=1)
         return bbox_cost * self.weight
