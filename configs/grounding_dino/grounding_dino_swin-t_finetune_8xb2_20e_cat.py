@@ -7,12 +7,12 @@ class_name = ('cat', )
 num_classes = len(class_name)
 metainfo = dict(classes=class_name, palette=[(220, 20, 60)])
 
-model = dict(bbox_head=dict(num_classes=num_classes, loss_bbox=dict(type='LocLoss', loss_weight=0.5), loss_iou=dict(type='LocLoss', loss_weight=0.5)), loss_cls=dict(
+model = dict(bbox_head=dict(num_classes=num_classes, loss_bbox=dict(type='LocLoss', loss_weight=0.5), loss_iou=dict(type='LocLoss', loss_weight=0.5), loss_cls=dict(
             alpha=0.25,
             gamma=2.0,
             loss_weight=5.0,
             type='FocalLoss',
-            use_sigmoid=True))
+            use_sigmoid=True)))
 
 train_dataloader = dict(
     dataset=dict(
