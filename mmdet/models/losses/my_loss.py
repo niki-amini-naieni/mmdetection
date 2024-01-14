@@ -30,7 +30,7 @@ class MyLoss(nn.Module):
                 weight=None,
                 avg_factor=None,
                 reduction_override=None):
-        
+        print(weight)
         loss_bbox = self.loss_weight * my_loss(
             pred, target).mean()
         return loss_bbox
