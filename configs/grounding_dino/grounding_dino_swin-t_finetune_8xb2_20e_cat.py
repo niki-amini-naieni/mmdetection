@@ -1,13 +1,13 @@
 _base_ = 'grounding_dino_swin-t_finetune_16xb2_1x_coco.py'
 custom_imports=dict(
-    imports=['mmdet.models.losses.my_loss'])
+    imports=['mmdet.models.losses.loc_loss'])
 
 data_root = 'data/cat/'
 class_name = ('cat', )
 num_classes = len(class_name)
 metainfo = dict(classes=class_name, palette=[(220, 20, 60)])
 
-model = dict(bbox_head=dict(num_classes=num_classes, loss_bbox=dict(type='MyLoss', loss_weight=1.0)))
+model = dict(bbox_head=dict(num_classes=num_classes, loss_bbox=dict(type='LocLoss', loss_weight=0.5), loss_iou=dict(type='LocLoss', loss_weight=0.5)))
 
 train_dataloader = dict(
     dataset=dict(
