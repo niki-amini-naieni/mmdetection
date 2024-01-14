@@ -7,12 +7,28 @@ class_name = ('cat', )
 num_classes = len(class_name)
 metainfo = dict(classes=class_name, palette=[(220, 20, 60)])
 
-model = dict(bbox_head=dict(num_classes=num_classes, loss_bbox=dict(type='LocLoss', loss_weight=0.5), loss_iou=dict(type='LocLoss', loss_weight=0.5), loss_cls=dict(
-            alpha=0.25,
-            gamma=2.0,
-            loss_weight=5.0,
+model = dict(bbox_head=dict(
+        type='GroundingDINOHead',
+        num_classes=num_classes,
+        sync_cls_avg_factor=True,
+        contrastive_cfg=dict(max_text_len=256, log_scale=0.0, bias=False),
+        loss_cls=dict(
             type='FocalLoss',
-            use_sigmoid=True)))
+            use_sigmoid=True,
+            gamma=2.0,
+            alpha=0.25,
+            loss_weight=5.0),  # 2.0 in DeformDETR
+        loss_bbox=dict(type='LocLoss', loss_weight=1.0),
+        loss_iou=dict(type='GIoULoss', loss_weight=0)
+    ),
+    train_cfg=dict(
+            assigner=dict(
+                type='HungarianAssigner',
+                match_costs=[
+                    dict(type='BinaryFocalLossCost', weight=5.0),
+                    dict(type='LocCost', weight=1.0, box_format='xywh')
+                ]))
+)
 
 train_dataloader = dict(
     dataset=dict(
