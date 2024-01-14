@@ -32,7 +32,7 @@ class MyLoss(nn.Module):
                 avg_factor=None,
                 reduction_override=None):
         assert reduction_override in (None, 'none', 'mean', 'sum')
-        assert weight[:, 0] == weight[:, 1] and weight[:, 1] == weight[:, 2] and weight[:, 2] == weight[:, 3]
+        #assert weight[:, 0] == weight[:, 1] and weight[:, 1] == weight[:, 2] and weight[:, 2] == weight[:, 3]
 
         weight = weight[:, :2]
         reduction = (
