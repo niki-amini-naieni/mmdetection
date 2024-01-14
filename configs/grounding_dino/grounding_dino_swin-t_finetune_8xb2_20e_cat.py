@@ -72,7 +72,7 @@ optim_wrapper = dict(
     paramwise_cfg=dict(
         custom_keys={
             'absolute_pos_embed': dict(decay_mult=0.),
-            'backbone': dict(lr_mult=0.1),
+            'backbone': dict(lr_mult=0),
             'language_model': dict(lr_mult=0),
         }))
 
