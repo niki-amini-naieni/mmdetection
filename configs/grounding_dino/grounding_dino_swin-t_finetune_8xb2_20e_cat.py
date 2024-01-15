@@ -3,7 +3,7 @@ custom_imports=dict(
     imports=['mmdet.models.losses.loc_loss', 'mmdet.evaluation.metrics.count_metric'])
 
 data_root = 'data/cat/'
-class_name = ('cat',)
+class_name = ('cat', 'dog')
 num_classes = len(class_name)
 #num_classes = 1e6
 metainfo = dict(classes=class_name, palette=[(220, 20, 60)])
