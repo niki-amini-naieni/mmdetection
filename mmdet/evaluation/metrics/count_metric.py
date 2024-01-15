@@ -382,6 +382,7 @@ class CountMetric(BaseMetric):
                 gt['anns'] = data_sample['instances']
             # add converted result to the results list
             print("scores shape: " + str(result['scores'].shape))
+            print("labels: " + str(result["labels"]))
             self.results.append((gt, result))
 
     def compute_metrics(self, results: list) -> Dict[str, float]:
