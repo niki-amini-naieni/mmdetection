@@ -97,6 +97,8 @@ def py_focal_loss_with_prob(pred,
                     (1 - target)) * pt.pow(gamma)
     loss = F.binary_cross_entropy(
         pred, target, reduction='none') * focal_weight
+    print("pred.shape: " + str(pred.shape))
+    print("target.shape: " + str(target.shape))
     if weight is not None:
         if weight.shape != loss.shape:
             if weight.size(0) == loss.size(0):
