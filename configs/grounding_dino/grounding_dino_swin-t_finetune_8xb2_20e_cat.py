@@ -1,6 +1,6 @@
 _base_ = 'grounding_dino_swin-t_finetune_16xb2_1x_coco.py'
 custom_imports=dict(
-    imports=['mmdet.models.losses.loc_loss'])
+    imports=['mmdet.models.losses.loc_loss', 'mmdet.evaluation.metrics.count_metric'])
 
 data_root = 'data/cat/'
 class_name = ('cat', )
@@ -48,6 +48,11 @@ val_dataloader = dict(
 test_dataloader = val_dataloader
 
 val_evaluator = dict(ann_file=data_root + 'annotations/test.json')
+test_evaluator = val_evaluator
+
+val_evaluator = dict(
+    type='CountMetric',
+    ann_file=data_root + 'annotations/test.json')
 test_evaluator = val_evaluator
 
 max_epoch = 20
