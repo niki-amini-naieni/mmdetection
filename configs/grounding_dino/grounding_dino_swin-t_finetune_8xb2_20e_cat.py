@@ -5,7 +5,7 @@ custom_imports=dict(
 data_root = 'data/cat/'
 class_name = ('cat', )
 num_classes = len(class_name)
-num_classes = 1e6
+#num_classes = 1e6
 metainfo = dict(classes=class_name, palette=[(220, 20, 60)])
 
 model = dict(bbox_head=dict(

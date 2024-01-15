@@ -1,11 +1,12 @@
 _base_ = 'grounding_dino_swin-t_finetune_16xb2_1x_coco.py'
+# https://mmengine.readthedocs.io/en/latest/advanced_tutorials/config.html#inheritance-between-configuration-files
 custom_imports=dict(
     imports=['mmdet.models.losses.loc_loss'])
 
-data_root = 'data/fsc147_grounding_dino'
-class_name = ('cat', )
-num_classes = len(class_name)
-metainfo = dict(classes=class_name, palette=[(220, 20, 60)])
+data_root = 'data/fsc147_grounding_dino/'
+class_names = ('alcohol bottle', 'ant', 'apple', 'baguette roll', 'ball', 'banana', 'bead', 'bee', 'bird', 'birthday candle', 'biscuit', 'boat', 'book', 'bottle', 'bottle cap', 'bowl', 'box', 'bread roll', 'brick', 'buffalo', 'bullet', 'bun', 'calamari ring', 'camel', 'can', 'candle', 'candy piece', 'cap', 'car', 'carrom board piece', 'cartridge', 'cashew nut', 'cassette', 'cement bag', 'cereal', 'chair', 'chewing gum piece', 'chicken wing', 'chopstick', 'clam', 'coffee bean', 'coin', 'comic book', 'cotton ball', 'cow', 'crab cake', 'crane', 'crayon', 'croissant', 'crow', 'cup', 'cupcake', 'cupcake holder', 'deer', 'donut', 'donut holder', 'egg', 'elephant', 'finger food', 'fish', 'flamingo', 'flower', 'flower pot', 'fresh cut', 'gemstone', 'go game', 'goat', 'goldfish snack', 'goose', 'grape', 'green pea', 'horse', 'hot air balloon', 'ice cream', 'ice cream cone', 'instant noodle', 'jade stone', 'jeans', 'keyboard key', 'kidney bean', 'kitchen towel', 'kiwi', 'lego', 'lighter', 'lipstick', 'm&m piece', 'macaron', 'marble', 'marker', 'match', 'meat skewer', 'milk carton', 'mini blind', 'mosaic tile', 'naan bread', 'nail', 'nail polish', 'nut', 'onion ring', 'orange', 'oyster', 'oyster shell', 'peach', 'pearl', 'pen', 'pencil', 'penguin', 'pepper', 'person', 'pigeon', 'pill', 'plate', 'polka dot', 'polka dot tile', 'potato', 'potato chip', 'prawn cracker', 'red bean', 'rice bag', 'roof tile', 'round dessert', 'sauce bottle', 'sausage', 'screw', 'sea shell', 'seagull', 'shallot', 'sheep', 'shirt', 'shoe', 'skateboard', 'ski', 'spoon', 'spring roll', 'stair', 'stamp', 'stapler pin', 'sticky note', 'straw', 'strawberry', 'sunglass', 'supermarket shelf', 'swan', 'toilet paper roll', 'tomato', 'tree log', 'watch', 'watermelon', 'window', 'zebra')
+num_classes = len(class_names)
+metainfo = dict(classes=class_names)
 
 model = dict(bbox_head=dict(
         type='GroundingDINOHead',
@@ -34,20 +35,25 @@ train_dataloader = dict(
     dataset=dict(
         data_root=data_root,
         metainfo=metainfo,
-        ann_file='annotations/trainval.json',
+        ann_file='annotations/train.json',
         data_prefix=dict(img='images/')))
 
 val_dataloader = dict(
     dataset=dict(
-        metainfo=metainfo,
         data_root=data_root,
+        metainfo=metainfo,
+        ann_file='annotations/val.json',
+        data_prefix=dict(img='images/')))
+
+test_dataloader = dict(
+    dataset=dict(
+        data_root=data_root,
+        metainfo=metainfo,
         ann_file='annotations/test.json',
         data_prefix=dict(img='images/')))
 
-test_dataloader = val_dataloader
-
-val_evaluator = dict(ann_file=data_root + 'annotations/test.json')
-test_evaluator = val_evaluator
+val_evaluator = dict(ann_file=data_root + 'annotations/val.json')
+test_evaluator = dict(ann_file=data_root + 'annotations/test.json')
 
 max_epoch = 20
 
@@ -55,17 +61,6 @@ default_hooks = dict(
     checkpoint=dict(interval=1, max_keep_ckpts=1, save_best='auto'),
     logger=dict(type='LoggerHook', interval=5))
 train_cfg = dict(max_epochs=max_epoch, val_interval=1)
-
-param_scheduler = [
-    dict(type='LinearLR', start_factor=0.001, by_epoch=False, begin=0, end=30),
-    dict(
-        type='MultiStepLR',
-        begin=0,
-        end=max_epoch,
-        by_epoch=True,
-        milestones=[15],
-        gamma=0.1)
-]
 
 optim_wrapper = dict(
     optimizer=dict(lr=0.00005),
@@ -75,5 +70,3 @@ optim_wrapper = dict(
             'backbone': dict(lr_mult=0),
             'language_model': dict(lr_mult=0),
         }))
-
-auto_scale_lr = dict(base_batch_size=16)
