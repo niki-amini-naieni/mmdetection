@@ -232,18 +232,17 @@ class FocalLoss(nn.Module):
                 if pred.dim() == target.dim():
                     # this means that target is already in One-Hot form.
                     calculate_loss_func = py_sigmoid_focal_loss
+                    print("py_sigmoid_focal_loss")
                 elif torch.cuda.is_available() and pred.is_cuda:
                     calculate_loss_func = sigmoid_focal_loss
+                    print("sigmoid_focal_loss")
                 else:
                     num_classes = pred.size(1)
                     target = F.one_hot(target, num_classes=num_classes + 1)
                     target = target[:, :num_classes]
                     calculate_loss_func = py_sigmoid_focal_loss
+                    print("py_sigmoid_focal_loss")
 
-            print("pred.shape: " + str(pred.shape))
-            print("target.shape: " + str(target.shape))
-            print("pred: " + str(pred))
-            print("target: " + str(target))
             loss_cls = self.loss_weight * calculate_loss_func(
                 pred,
                 target,
