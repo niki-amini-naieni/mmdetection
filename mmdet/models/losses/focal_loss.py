@@ -242,6 +242,8 @@ class FocalLoss(nn.Module):
 
             print("pred.shape: " + str(pred.shape))
             print("target.shape: " + str(target.shape))
+            print("pred: " + str(pred))
+            print("target: " + str(target))
             loss_cls = self.loss_weight * calculate_loss_func(
                 pred,
                 target,
