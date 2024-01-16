@@ -456,7 +456,7 @@ class GroundingDINO(DINO):
                     self.get_tokens_and_prompts(
                         text_prompts[0], True)
                 new_text_prompts = [caption_string] * len(batch_inputs)
-                print("new_text_prompts: " + new_text_prompts)
+                print("new_text_prompts: " + str(new_text_prompts))
                 for gt_label in gt_labels:
                     new_tokens_positive = [
                         tokens_positive[label] for label in gt_label
