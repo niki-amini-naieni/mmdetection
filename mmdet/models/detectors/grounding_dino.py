@@ -426,7 +426,6 @@ class GroundingDINO(DINO):
         ]
 
         if 'tokens_positive' in batch_data_samples[0]:
-            print("tokens_positive in batch_data_samples[0]!")
             tokens_positive = [
                 data_samples.tokens_positive
                 for data_samples in batch_data_samples
@@ -447,10 +446,10 @@ class GroundingDINO(DINO):
                 positive_maps.append(positive_map)
             new_text_prompts = text_prompts
         else:
-            print("tokens_positive not in batch_data_samples[0]!")
             new_text_prompts = []
             positive_maps = []
             if len(set(text_prompts)) == 1:
+                print("len(set(text_prompts)) == 1")
                 # All the text prompts are the same,
                 # so there is no need to calculate them multiple times.
                 tokenized, caption_string, tokens_positive, _ = \
@@ -465,6 +464,7 @@ class GroundingDINO(DINO):
                         tokenized, new_tokens_positive)
                     positive_maps.append(positive_map)
             else:
+                print("len(set(text_prompts)) != 1")
                 for text_prompt, gt_label in zip(text_prompts, gt_labels):
                     tokenized, caption_string, tokens_positive, _ = \
                         self.get_tokens_and_prompts(
