@@ -88,6 +88,7 @@ class BaseDetector(BaseModel, metaclass=ABCMeta):
             - If ``mode="predict"``, return a list of :obj:`DetDataSample`.
             - If ``mode="loss"``, return a dict of tensor.
         """
+        print("inputs.shape: " + str(inputs.shape))
         if mode == 'loss':
             return self.loss(inputs, data_samples)
         elif mode == 'predict':

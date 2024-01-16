@@ -158,7 +158,6 @@ class DetectionTransformer(BaseDetector, metaclass=ABCMeta):
         Returns:
             tuple[Tensor]: A tuple of features from ``bbox_head`` forward.
         """
-        print("batch_inputs.shape: " + str(batch_inputs.shape))
         img_feats = self.extract_feat(batch_inputs)
         head_inputs_dict = self.forward_transformer(img_feats,
                                                     batch_data_samples)
