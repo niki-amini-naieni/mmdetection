@@ -489,6 +489,8 @@ class GroundingDINO(DINO):
         visual_features = self.extract_feat(batch_inputs)
         head_inputs_dict = self.forward_transformer(visual_features, text_dict,
                                                     batch_data_samples)
+        print("visual_features: " + str(visual_features))
+        print("head_inputs_dict: " + str(head_inputs_dict))
 
         losses = self.bbox_head.loss(
             **head_inputs_dict, batch_data_samples=batch_data_samples)
