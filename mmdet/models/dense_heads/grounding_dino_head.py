@@ -550,7 +550,6 @@ class GroundingDINOHead(DINOHead):
         text_mask = (text_masks > 0).unsqueeze(1)
         text_mask = text_mask.repeat(1, cls_scores.size(1), 1)
         print("text_mask: " + str(text_mask))
-        print("Masked cls scores shape: " + str(cls_scores.shape))
         cls_scores = torch.masked_select(cls_scores, text_mask).contiguous()
 
         labels = torch.masked_select(labels, text_mask)
@@ -571,6 +570,7 @@ class GroundingDINOHead(DINOHead):
             raise NotImplementedError(
                 'QualityFocalLoss for GroundingDINOHead is not supported yet.')
         else:
+            print("Masked cls scores shape: " + str(cls_scores.shape))
             loss_cls = self.loss_cls(
                 cls_scores, labels, label_weights, avg_factor=cls_avg_factor)
 
