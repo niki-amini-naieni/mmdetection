@@ -418,6 +418,7 @@ class GroundingDINO(DINO):
         ]
         print("text_prompts: ")
         print(text_prompts)
+        print("batch_data_samples: " + str(batch_data_samples))
 
         gt_labels = [
             data_samples.gt_instances.labels
