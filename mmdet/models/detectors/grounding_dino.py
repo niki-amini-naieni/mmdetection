@@ -426,6 +426,7 @@ class GroundingDINO(DINO):
         ]
 
         if 'tokens_positive' in batch_data_samples[0]:
+            print("tokens_positive in batch_data_samples[0]!")
             tokens_positive = [
                 data_samples.tokens_positive
                 for data_samples in batch_data_samples
@@ -446,6 +447,7 @@ class GroundingDINO(DINO):
                 positive_maps.append(positive_map)
             new_text_prompts = text_prompts
         else:
+            print("tokens_positive not in batch_data_samples[0]!")
             new_text_prompts = []
             positive_maps = []
             if len(set(text_prompts)) == 1:
@@ -470,7 +472,6 @@ class GroundingDINO(DINO):
                     new_tokens_positive = [
                         tokens_positive[label] for label in gt_label
                     ]
-                    print("text_prompt: " + text_prompt + ", tokens_positive.shape: " + str(tokens_positive.shape))
                     _, positive_map = self.get_positive_map(
                         tokenized, new_tokens_positive)
                     positive_maps.append(positive_map)
