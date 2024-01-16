@@ -450,10 +450,6 @@ class GroundingDINO(DINO):
                 tokenized, caption_string, tokens_positive, _ = \
                     self.get_tokens_and_prompts(
                         text_prompts[0], True)
-                print("tokenized: " + str(tokenized))
-                #print("tokenized.shape: " + str(tokenized.shape))
-                print("tokens_positive: " + str(tokens_positive))
-                #print("tokens_positive.shape: " + str(token_positive.shape))
                 new_text_prompts = [caption_string] * len(batch_inputs)
                 for gt_label in gt_labels:
                     new_tokens_positive = [
@@ -475,7 +471,9 @@ class GroundingDINO(DINO):
                     positive_maps.append(positive_map)
                     new_text_prompts.append(caption_string)
 
+        print("new_text_prompts: " + str(new_text_prompts))
         text_dict = self.language_model(new_text_prompts)
+        print("text_dict: " + str(text_dict))
         if self.text_feat_map is not None:
             text_dict['embedded'] = self.text_feat_map(text_dict['embedded'])
 
