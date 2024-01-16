@@ -56,7 +56,6 @@ class GroundingDINO(DINO):
         self.language_model_cfg = language_model
         self._special_tokens = '. '
         super().__init__(*args, **kwargs)
-        print("Num queries: " + str(self.num_queries))
 
     def _init_layers(self) -> None:
         """Initialize layers except for backbone, neck and bbox_head."""
@@ -416,9 +415,6 @@ class GroundingDINO(DINO):
         text_prompts = [
             data_samples.text for data_samples in batch_data_samples
         ]
-        print("text_prompts: ")
-        print(text_prompts)
-        print("batch_data_samples: " + str(batch_data_samples))
 
         gt_labels = [
             data_samples.gt_instances.labels
@@ -449,14 +445,16 @@ class GroundingDINO(DINO):
             new_text_prompts = []
             positive_maps = []
             if len(set(text_prompts)) == 1:
-                print("len(set(text_prompts)) == 1")
                 # All the text prompts are the same,
                 # so there is no need to calculate them multiple times.
                 tokenized, caption_string, tokens_positive, _ = \
                     self.get_tokens_and_prompts(
                         text_prompts[0], True)
+                print("tokenized: " + str(tokenized))
+                print("tokenized.shape: " + str(tokenized.shape))
+                print("tokens_positive: " + str(tokens_positive))
+                print("tokens_positive.shape: " + str(token_positive.shape))
                 new_text_prompts = [caption_string] * len(batch_inputs)
-                print("new_text_prompts: " + str(new_text_prompts))
                 for gt_label in gt_labels:
                     new_tokens_positive = [
                         tokens_positive[label] for label in gt_label
@@ -465,7 +463,6 @@ class GroundingDINO(DINO):
                         tokenized, new_tokens_positive)
                     positive_maps.append(positive_map)
             else:
-                print("len(set(text_prompts)) != 1")
                 for text_prompt, gt_label in zip(text_prompts, gt_labels):
                     tokenized, caption_string, tokens_positive, _ = \
                         self.get_tokens_and_prompts(
