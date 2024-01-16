@@ -470,6 +470,7 @@ class GroundingDINO(DINO):
                     new_tokens_positive = [
                         tokens_positive[label] for label in gt_label
                     ]
+                    print("text_prompt: " + text_prompt + ", tokens_positive.shape: " + str(tokens_positive.shape))
                     _, positive_map = self.get_positive_map(
                         tokenized, new_tokens_positive)
                     positive_maps.append(positive_map)
