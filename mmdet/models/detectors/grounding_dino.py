@@ -473,7 +473,7 @@ class GroundingDINO(DINO):
 
         print("new_text_prompts: " + str(new_text_prompts))
         text_dict = self.language_model(new_text_prompts)
-        print("text_dict: " + str(text_dict))
+        print("text_dict[embedded].shape: " + str(text_dict['embedded'].shape))
         if self.text_feat_map is not None:
             text_dict['embedded'] = self.text_feat_map(text_dict['embedded'])
 
