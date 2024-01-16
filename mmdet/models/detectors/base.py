@@ -90,10 +90,13 @@ class BaseDetector(BaseModel, metaclass=ABCMeta):
         """
         print("inputs.shape: " + str(inputs.shape))
         if mode == 'loss':
+            print("loss mode")
             return self.loss(inputs, data_samples)
         elif mode == 'predict':
+            print("predict mode")
             return self.predict(inputs, data_samples)
         elif mode == 'tensor':
+            print("tensor mode")
             return self._forward(inputs, data_samples)
         else:
             raise RuntimeError(f'Invalid mode "{mode}". '
