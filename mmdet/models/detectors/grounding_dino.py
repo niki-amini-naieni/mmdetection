@@ -379,6 +379,7 @@ class GroundingDINO(DINO):
 
         query = self.query_embedding.weight[:, None, :]
         query = query.repeat(1, bs, 1).transpose(0, 1)
+        print("(pre DN) query.shape: " + str(query.shape))
         if self.training:
             dn_label_query, dn_bbox_query, dn_mask, dn_meta = \
                 self.dn_query_generator(batch_data_samples)
@@ -390,6 +391,7 @@ class GroundingDINO(DINO):
             dn_mask, dn_meta = None, None
         reference_points = reference_points.sigmoid()
 
+        print("(post DN) query.shape: " + str(query.shape))
         decoder_inputs_dict = dict(
             query=query,
             memory=memory,

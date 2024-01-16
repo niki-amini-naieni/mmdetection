@@ -525,6 +525,8 @@ class GroundingDINOHead(DINOHead):
             `loss_iou`.
         """
         num_imgs = cls_scores.size(0)
+        print("cls_scores.shape: " + str(cls_scores.shape))
+        print("cls_scores: " + str(cls_scores))
         cls_scores_list = [cls_scores[i] for i in range(num_imgs)]
         bbox_preds_list = [bbox_preds[i] for i in range(num_imgs)]
         with torch.no_grad():
