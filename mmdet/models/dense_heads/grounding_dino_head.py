@@ -248,6 +248,7 @@ class GroundingDINOHead(DINOHead):
               h), has shape (num_decoder_layers, bs, num_queries, 4) with the
               last dimension arranged as (cx, cy, w, h).
         """
+        print("hidden_states.shape: " + str(hidden_states.shape))
         all_layers_outputs_classes = []
         all_layers_outputs_coords = []
 
