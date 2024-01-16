@@ -549,6 +549,8 @@ class GroundingDINOHead(DINOHead):
         text_masks[:, :self.text_masks.size(1)] = self.text_masks
         text_mask = (text_masks > 0).unsqueeze(1)
         text_mask = text_mask.repeat(1, cls_scores.size(1), 1)
+        print("text_mask: " + str(text_mask))
+        print("Masked cls scores shape: " + str(cls_scores.shape))
         cls_scores = torch.masked_select(cls_scores, text_mask).contiguous()
 
         labels = torch.masked_select(labels, text_mask)
