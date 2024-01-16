@@ -56,6 +56,7 @@ class GroundingDINO(DINO):
         self.language_model_cfg = language_model
         self._special_tokens = '. '
         super().__init__(*args, **kwargs)
+        print("Num queries: " + str(self.num_queries))
 
     def _init_layers(self) -> None:
         """Initialize layers except for backbone, neck and bbox_head."""
