@@ -420,7 +420,8 @@ class GroundingDINOHead(DINOHead):
         max_per_img = self.test_cfg.get('max_per_img', len(cls_score))
         print("max_per_img: " + str(max_per_img))
         img_shape = img_meta['img_shape']
-
+        print("logits (pre-cls score): " + str(cls_score))
+        print("logits (pre-cls score).shape: " + str(cls_score.shape))
         if token_positive_maps is not None:
             cls_score = convert_grounding_to_cls_scores(
                 logits=cls_score.sigmoid()[None],
