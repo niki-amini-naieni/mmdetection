@@ -618,5 +618,6 @@ class GroundingDINO(DINO):
                 # for visualization
                 pred_instances.label_names = label_names
             data_sample.pred_instances = pred_instances
+        print("batch_data_samples")
         print(batch_data_samples)
         return batch_data_samples

@@ -417,6 +417,7 @@ class GroundingDINOHead(DINOHead):
                   the last dimension 4 arrange as (x1, y1, x2, y2).
         """
         assert len(cls_score) == len(bbox_pred)  # num_queries
+        print("max_per_img: " + str(max_per_img))
         max_per_img = self.test_cfg.get('max_per_img', len(cls_score))
         img_shape = img_meta['img_shape']
 
@@ -436,6 +437,8 @@ class GroundingDINOHead(DINOHead):
             bbox_pred = bbox_pred[indexes]
             det_labels = scores.new_zeros(scores.shape, dtype=torch.long)
 
+        print("cls_score: " + str(cls_score))
+        print("cls_score.shape: " + str(cls_score.shape))
         det_bboxes = bbox_cxcywh_to_xyxy(bbox_pred)
         det_bboxes[:, 0::2] = det_bboxes[:, 0::2] * img_shape[1]
         det_bboxes[:, 1::2] = det_bboxes[:, 1::2] * img_shape[0]
