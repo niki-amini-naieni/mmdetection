@@ -417,8 +417,8 @@ class GroundingDINOHead(DINOHead):
                   the last dimension 4 arrange as (x1, y1, x2, y2).
         """
         assert len(cls_score) == len(bbox_pred)  # num_queries
-        print("max_per_img: " + str(max_per_img))
         max_per_img = self.test_cfg.get('max_per_img', len(cls_score))
+        print("max_per_img: " + str(max_per_img))
         img_shape = img_meta['img_shape']
 
         if token_positive_maps is not None:
