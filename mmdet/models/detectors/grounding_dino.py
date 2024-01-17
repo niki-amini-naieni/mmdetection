@@ -497,7 +497,10 @@ class GroundingDINO(DINO):
         losses = self.bbox_head.loss(
             **head_inputs_dict, batch_data_samples=batch_data_samples)
         return losses
+    
 
+    def predict_count(self, batch_inputs, batch_data_samples, rescale: bool = True):
+        pass
     def predict(self, batch_inputs, batch_data_samples, rescale: bool = True):
         text_prompts = []
         enhanced_text_prompts = []
@@ -615,4 +618,5 @@ class GroundingDINO(DINO):
                 # for visualization
                 pred_instances.label_names = label_names
             data_sample.pred_instances = pred_instances
+        print(batch_data_samples)
         return batch_data_samples
