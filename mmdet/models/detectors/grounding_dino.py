@@ -379,7 +379,6 @@ class GroundingDINO(DINO):
 
         query = self.query_embedding.weight[:, None, :]
         query = query.repeat(1, bs, 1).transpose(0, 1)
-        print("(pre DN) query.shape: " + str(query.shape))
         if self.training:
             dn_label_query, dn_bbox_query, dn_mask, dn_meta = \
                 self.dn_query_generator(batch_data_samples)
@@ -391,7 +390,6 @@ class GroundingDINO(DINO):
             dn_mask, dn_meta = None, None
         reference_points = reference_points.sigmoid()
 
-        print("(post DN) query.shape: " + str(query.shape))
         decoder_inputs_dict = dict(
             query=query,
             memory=memory,
@@ -491,8 +489,6 @@ class GroundingDINO(DINO):
         visual_features = self.extract_feat(batch_inputs)
         head_inputs_dict = self.forward_transformer(visual_features, text_dict,
                                                     batch_data_samples)
-        print("visual_features: " + str(visual_features))
-        print("head_inputs_dict: " + str(head_inputs_dict))
 
         losses = self.bbox_head.loss(
             **head_inputs_dict, batch_data_samples=batch_data_samples)
@@ -618,6 +614,4 @@ class GroundingDINO(DINO):
                 # for visualization
                 pred_instances.label_names = label_names
             data_sample.pred_instances = pred_instances
-        print("batch_data_samples")
-        print(batch_data_samples)
         return batch_data_samples
