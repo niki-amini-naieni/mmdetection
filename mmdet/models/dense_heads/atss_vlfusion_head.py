@@ -32,7 +32,6 @@ def convert_grounding_to_cls_scores(logits: Tensor,
                                     positive_maps: List[dict]) -> Tensor:
     """Convert logits to class scores."""
     assert len(positive_maps) == logits.shape[0]  # batch size
-    print("positive_maps: " + str(positive_maps))
 
     scores = torch.zeros(logits.shape[0], logits.shape[1],
                          len(positive_maps[0])).to(logits.device)

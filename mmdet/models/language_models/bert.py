@@ -145,6 +145,10 @@ class BertModel(BaseModel):
             return_tensors='pt',
             truncation=True).to(device)
         input_ids = tokenized.input_ids
+        print("tokenized.shape: " + str(tokenized.shape))
+        print("input_ids.shape: " + str(input_ids.shape))
+        print("tokenized: " + str(tokenized))
+        print("input_ids: " + str(input_ids))
         if self.use_sub_sentence_represent:
             attention_mask, position_ids = \
                 generate_masks_with_special_tokens_and_transfer_map(
