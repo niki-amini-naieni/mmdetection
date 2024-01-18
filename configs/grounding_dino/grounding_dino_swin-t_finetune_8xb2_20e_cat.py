@@ -28,7 +28,8 @@ model = dict(bbox_head=dict(
                 match_costs=[
                     dict(type='BinaryFocalLossCost', weight=5.0),
                     dict(type='LocCost', weight=1.0, box_format='xywh')
-                ]))
+                ])),
+    test_cfg=dict(max_per_img=900)
 )
 
 train_dataloader = dict(
