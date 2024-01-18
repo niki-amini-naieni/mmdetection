@@ -35,7 +35,6 @@ def py_sigmoid_focal_loss(pred,
     """
     print("loss pred.shape: " + str(pred.shape))
     print("loss target.shape: " + str(target.shape))
-    print("target: " + str(target[target > 0]))
     pred_sigmoid = pred.sigmoid()
     target = target.type_as(pred)
     # Actually, pt here denotes (1 - pt) in the Focal Loss paper
