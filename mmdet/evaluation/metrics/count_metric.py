@@ -403,7 +403,7 @@ class CountMetric(BaseMetric):
                 contain annotations and predictions.
         """
         for data_sample in data_samples:
-            print(data_sample)
+            print(data_sample['token_positive_map'])
             result = dict()
             pred = data_sample['pred_instances']
             result['img_id'] = data_sample['img_id']
@@ -411,7 +411,6 @@ class CountMetric(BaseMetric):
             result['scores'] = pred['scores'].cpu().numpy()
             result['labels'] = pred['labels'].cpu().numpy()
             result['pred_logits'] = pred['pred_logits'].cpu().sigmoid().numpy()
-            result['pos_token_map'] = pred['pos_token_map'].cpu().numpy()
             # encode mask to RLE
             if 'masks' in pred:
                 result['masks'] = encode_mask_results(
