@@ -450,6 +450,7 @@ class GroundingDINOHead(DINOHead):
         results.scores = scores
         results.labels = det_labels
         results.pred_logits = logits
+        results.pos_token_map = token_positive_maps
         return results
 
     def loss(self, hidden_states: Tensor, references: List[Tensor],

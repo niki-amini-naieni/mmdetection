@@ -503,7 +503,6 @@ class GroundingDINO(DINO):
             else:
                 enhanced_text_prompts.append(None)
             tokens_positives.append(data_samples.get('tokens_positive', None))
-            print("tokens_positives: " + str(tokens_positives))
 
         if 'custom_entities' in batch_data_samples[0]:
             # Assuming that the `custom_entities` flag

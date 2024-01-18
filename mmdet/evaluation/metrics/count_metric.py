@@ -188,7 +188,7 @@ class CountMetric(BaseMetric):
         return ar
     
 
-    def get_cnt_errs(self, gts, preds, tokens) -> np.ndarray:
+    def get_cnt_errs(self, gts, preds) -> np.ndarray:
         """Evaluate proposal recall with COCO's fast_eval_recall.
 
         Args:
@@ -205,8 +205,10 @@ class CountMetric(BaseMetric):
         for sample_ind in range(len(preds)):
             gt_dict = gts[sample_ind]
             pred_dict = preds[sample_ind]
-            token_list = tokens[sample_ind]
 
+            text_token_ids = pred_dict['pos_token_map']
+            print("text_token_ids: " + str(text_token_ids))
+            print("text_token_ids.shape: " + str(text_token_ids.shape))
             pred_logits = pred_dict['pred_logits']
             print("pred_logits.shape: " + str(pred_logits.shape))
 
@@ -412,6 +414,7 @@ class CountMetric(BaseMetric):
             result['scores'] = pred['scores'].cpu().numpy()
             result['labels'] = pred['labels'].cpu().numpy()
             result['pred_logits'] = pred['pred_logits'].cpu().sigmoid().numpy()
+            result['pos_token_map'] = pred['pos_token_map'].cpu().numpy()
             # encode mask to RLE
             if 'masks' in pred:
                 result['masks'] = encode_mask_results(
