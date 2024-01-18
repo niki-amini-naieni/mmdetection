@@ -206,9 +206,6 @@ class CountMetric(BaseMetric):
             gt_dict = gts[sample_ind]
             pred_dict = preds[sample_ind]
 
-            text_token_ids = pred_dict['pos_token_map']
-            print("text_token_ids: " + str(text_token_ids))
-            print("text_token_ids.shape: " + str(text_token_ids.shape))
             pred_logits = pred_dict['pred_logits']
             print("pred_logits.shape: " + str(pred_logits.shape))
 
@@ -221,7 +218,7 @@ class CountMetric(BaseMetric):
 
             # Threshold by text tokens.
             tokens_start_ind = 1
-            tokens_end_ind = token_list.index(1012)
+            tokens_end_ind = -2
             pred_logits = pred_logits[:, tokens_start_ind: tokens_end_ind]
             print("text_tokens.shape: " + str(pred_logits.shape))
             mask_text = (pred_logits > 0.35).sum(dim=1) == (tokens_end_ind - tokens_start_ind)
