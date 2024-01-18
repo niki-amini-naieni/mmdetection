@@ -212,7 +212,8 @@ class CountMetric(BaseMetric):
             print("pred_logits.shape: " + str(pred_logits.shape))
 
             # Threshold by CLS token.
-            cls_tokens = pred_logits[:, 0]
+            #cls_tokens = pred_logits[:, 0]
+            cls_tokens = pred_logits.max(dim=1)
             print("cls_tokens.shape (pre thresh): " + str(cls_tokens.shape))
             print("cls_tokens: " + str(cls_tokens))
             mask_cls = cls_tokens > 0.25
@@ -411,9 +412,7 @@ class CountMetric(BaseMetric):
             result['bboxes'] = pred['bboxes'].cpu().numpy()
             result['scores'] = pred['scores'].cpu().numpy()
             result['labels'] = pred['labels'].cpu().numpy()
-            print("pre-sigmoid logits: " + str(pred['pred_logits']))
             result['pred_logits'] = pred['pred_logits'].cpu().sigmoid().numpy()
-            print("post-sigmoid logits: " + str(result["pred_logits"]))
             # encode mask to RLE
             if 'masks' in pred:
                 result['masks'] = encode_mask_results(

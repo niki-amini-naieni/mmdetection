@@ -168,7 +168,6 @@ class BertModel(BaseModel):
             language_dict_features['position_ids'] = position_ids
             language_dict_features[
                 'text_token_mask'] = tokenized.attention_mask.bool()
-        language_dict_features['input_ids'] = input_ids
         return language_dict_features
 
 

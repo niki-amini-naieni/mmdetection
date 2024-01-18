@@ -415,9 +415,7 @@ class GroundingDINOHead(DINOHead):
         """
         assert len(cls_score) == len(bbox_pred)  # num_queries
         max_per_img = self.test_cfg.get('max_per_img', len(cls_score))
-        print("max_per_img: " + str(max_per_img))
         img_shape = img_meta['img_shape']
-        print("logits (pre-cls score).shape: " + str(cls_score.shape))
         logits = cls_score
         if token_positive_maps is not None:
             cls_score = convert_grounding_to_cls_scores(
@@ -435,7 +433,6 @@ class GroundingDINOHead(DINOHead):
             bbox_pred = bbox_pred[indexes]
             det_labels = scores.new_zeros(scores.shape, dtype=torch.long)
 
-        print("cls_score.shape: " + str(cls_score.shape))
         det_bboxes = bbox_cxcywh_to_xyxy(bbox_pred)
         det_bboxes[:, 0::2] = det_bboxes[:, 0::2] * img_shape[1]
         det_bboxes[:, 1::2] = det_bboxes[:, 1::2] * img_shape[0]
