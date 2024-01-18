@@ -177,6 +177,8 @@ class GroundingDINO(DINO):
         return tokenized, caption_string, tokens_positive, entities
 
     def get_positive_map(self, tokenized, tokens_positive):
+        print("positive_map: ")
+        print(positive_map)
         positive_map = create_positive_map(
             tokenized,
             tokens_positive,
@@ -184,6 +186,10 @@ class GroundingDINO(DINO):
                 self.decoder.num_layers].max_text_len)
         positive_map_label_to_token = create_positive_map_label_to_token(
             positive_map, plus=1)
+        print("positive_map:")
+        print(positive_map)
+        print("tokenized:")
+        print(tokenized)
         return positive_map_label_to_token, positive_map
 
     def get_tokens_positive_and_prompts(
