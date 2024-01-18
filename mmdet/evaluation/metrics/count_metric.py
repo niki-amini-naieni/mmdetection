@@ -222,7 +222,7 @@ class CountMetric(BaseMetric):
             # Threshold by text tokens.
             pred_logits = pred_logits[:, text_token_map[1]]
             print("text_tokens.shape: " + str(pred_logits.shape))
-            mask_text = (pred_logits > 0.35).sum(dim=1) == pred_logits.shape[1]
+            mask_text = (pred_logits > 0.35).sum(axis=1) == pred_logits.shape[1]
             print("mask_text.shape: " + str(mask_text.shape))
             pred_logits = pred_logits[mask_text, :]
             print("pred_logits.shape (post text thresh): " + str(pred_logits.shape))
