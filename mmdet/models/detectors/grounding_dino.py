@@ -589,7 +589,7 @@ class GroundingDINO(DINO):
                 rescale=rescale,
                 batch_data_samples=batch_data_samples)
 
-        for data_sample, pred_instances, entity, is_rec_task, text_tokens in zip(batch_data_samples, results_list, entities, is_rec_tasks, text_dict["input_ids"]):
+        for data_sample, pred_instances, entity, is_rec_task in zip(batch_data_samples, results_list, entities, is_rec_tasks):
             if len(pred_instances) > 0:
                 label_names = []
                 for labels in pred_instances.labels:
