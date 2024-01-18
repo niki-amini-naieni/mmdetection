@@ -186,6 +186,56 @@ class CountMetric(BaseMetric):
             gt_bboxes, pred_bboxes, proposal_nums, iou_thrs, logger=logger)
         ar = recalls.mean(axis=1)
         return ar
+    
+
+    def get_cnt_errs(self, gts, preds, tokens) -> np.ndarray:
+        """Evaluate proposal recall with COCO's fast_eval_recall.
+
+        Args:
+            results (List[dict]): Results of the dataset.
+            proposal_nums (Sequence[int]): Proposal numbers used for
+                evaluation.
+            iou_thrs (Sequence[float]): IoU thresholds used for evaluation.
+            logger (MMLogger, optional): Logger used for logging the recall
+                summary.
+        Returns:
+            np.ndarray: Averaged recall results.
+        """
+        abs_errs = []
+        for sample_ind in range(len(preds)):
+            gt_dict = gts[sample_ind]
+            pred_dict = preds[sample_ind]
+            token_list = tokens[sample_ind]
+
+            pred_logits = pred_dict['pred_logits']
+            print("pred_logits.shape: " + str(pred_logits.shape))
+
+            # Threshold by CLS token.
+            cls_tokens = pred_logits[:, 0]
+            print("cls_tokens.shape (pre thresh): " + str(cls_tokens.shape))
+            mask_cls = cls_tokens > 0.25
+            pred_logits = pred_logits[mask_cls, :]
+            print("pred_logits.shape (post cls thresh): " + str(pred_logits.shape))
+
+            # Threshold by text tokens.
+            tokens_start_ind = 1
+            tokens_end_ind = token_list.index(1012)
+            pred_logits = pred_logits[:, tokens_start_ind: tokens_end_ind]
+            print("text_tokens.shape: " + str(pred_logits.shape))
+            mask_text = (pred_logits > 0.35).sum(dim=1) == (tokens_end_ind - tokens_start_ind)
+            print("mask_text.shape: " + str(mask_text.shape))
+            pred_logits = pred_logits[mask_text, :]
+            print("pred_logits.shape (post text thresh): " + str(pred_logits.shape))
+
+            pred_cnt = pred_logits.shape[0]
+            print("pred_cnt: " + str(pred_cnt))
+
+            gt_cnt = len(gt_dict['anns'])
+            print("gt_cnt: " + str(gt_cnt))
+
+            abs_errs.append(np.abs(gt_cnt - pred_cnt))
+
+        return np.array(abs_errs)
 
     def xyxy2xywh(self, bbox: np.ndarray) -> list:
         """Convert ``xyxy`` style bounding boxes to ``xywh`` style for COCO
@@ -361,6 +411,7 @@ class CountMetric(BaseMetric):
             result['bboxes'] = pred['bboxes'].cpu().numpy()
             result['scores'] = pred['scores'].cpu().numpy()
             result['labels'] = pred['labels'].cpu().numpy()
+            result['pred_logits'] = pred['pred_logits'].cpu().sigmoid().numpy()
             # encode mask to RLE
             if 'masks' in pred:
                 result['masks'] = encode_mask_results(
@@ -398,6 +449,8 @@ class CountMetric(BaseMetric):
 
         # split gt and prediction list
         gts, preds = zip(*results)
+
+        print(self.get_cnt_errs(gts, preds, tokens))
 
         tmp_dir = None
         if self.outfile_prefix is None:

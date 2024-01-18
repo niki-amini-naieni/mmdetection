@@ -492,9 +492,6 @@ class GroundingDINO(DINO):
             **head_inputs_dict, batch_data_samples=batch_data_samples)
         return losses
     
-
-    def predict_count(self, batch_inputs, batch_data_samples, rescale: bool = True):
-        pass
     def predict(self, batch_inputs, batch_data_samples, rescale: bool = True):
         text_prompts = []
         enhanced_text_prompts = []
@@ -506,6 +503,7 @@ class GroundingDINO(DINO):
             else:
                 enhanced_text_prompts.append(None)
             tokens_positives.append(data_samples.get('tokens_positive', None))
+            print("tokens_positives: " + str(tokens_positives))
 
         if 'custom_entities' in batch_data_samples[0]:
             # Assuming that the `custom_entities` flag
