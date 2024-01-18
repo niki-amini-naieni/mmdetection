@@ -206,6 +206,8 @@ class CountMetric(BaseMetric):
             gt_dict = gts[sample_ind]
             pred_dict = preds[sample_ind]
 
+            text_token_map = pred_dict['token_positive_map']
+
             pred_logits = pred_dict['pred_logits']
             print("pred_logits.shape: " + str(pred_logits.shape))
 
@@ -217,11 +219,9 @@ class CountMetric(BaseMetric):
             print("pred_logits.shape (post cls thresh): " + str(pred_logits.shape))
 
             # Threshold by text tokens.
-            tokens_start_ind = 1
-            tokens_end_ind = -2
-            pred_logits = pred_logits[:, tokens_start_ind: tokens_end_ind]
+            pred_logits = pred_logits[:, text_token_map[1]]
             print("text_tokens.shape: " + str(pred_logits.shape))
-            mask_text = (pred_logits > 0.35).sum(dim=1) == (tokens_end_ind - tokens_start_ind)
+            mask_text = (pred_logits > 0.35).sum(dim=1) == pred_logits.shape[1]
             print("mask_text.shape: " + str(mask_text.shape))
             pred_logits = pred_logits[mask_text, :]
             print("pred_logits.shape (post text thresh): " + str(pred_logits.shape))
@@ -403,7 +403,7 @@ class CountMetric(BaseMetric):
                 contain annotations and predictions.
         """
         for data_sample in data_samples:
-            print(data_sample['token_positive_map'])
+            result['token_positive_map'] = data_sample["token_positive_map"]
             result = dict()
             pred = data_sample['pred_instances']
             result['img_id'] = data_sample['img_id']
@@ -449,7 +449,7 @@ class CountMetric(BaseMetric):
         # split gt and prediction list
         gts, preds = zip(*results)
 
-        print(self.get_cnt_errs(gts, preds, tokens))
+        print(self.get_cnt_errs(gts, preds))
 
         tmp_dir = None
         if self.outfile_prefix is None:
