@@ -411,7 +411,7 @@ class CountMetric(BaseMetric):
             result['bboxes'] = pred['bboxes'].cpu().numpy()
             result['scores'] = pred['scores'].cpu().numpy()
             result['labels'] = pred['labels'].cpu().numpy()
-            print("pre-sigmoid logits: " + str(result['pred_logits']))
+            print("pre-sigmoid logits: " + str(pred['pred_logits']))
             result['pred_logits'] = pred['pred_logits'].cpu().sigmoid().numpy()
             print("post-sigmoid logits: " + str(result["pred_logits"]))
             # encode mask to RLE
