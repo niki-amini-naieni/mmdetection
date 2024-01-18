@@ -47,7 +47,7 @@ val_dataloader = dict(
 
 test_dataloader = val_dataloader
 
-val_evaluator = dict(ann_file=data_root + 'annotations/test.json')
+val_evaluator = dict(type='CountMetric', ann_file=data_root + 'annotations/test.json')
 test_evaluator = val_evaluator
 
 val_evaluator = dict(
