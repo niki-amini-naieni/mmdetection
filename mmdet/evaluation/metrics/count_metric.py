@@ -213,7 +213,7 @@ class CountMetric(BaseMetric):
 
             # Threshold by CLS token.
             #cls_tokens = pred_logits[:, 0]
-            cls_tokens = pred_logits.max(dim=1)
+            cls_tokens = pred_logits.max(axis=1)
             print("cls_tokens.shape (pre thresh): " + str(cls_tokens.shape))
             print("cls_tokens: " + str(cls_tokens))
             mask_cls = cls_tokens > 0.25
