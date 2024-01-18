@@ -405,6 +405,7 @@ class CountMetric(BaseMetric):
         """
         for data_sample in data_samples:
             result = dict()
+            print(data_sample)
             result['token_positive_map'] = data_sample["token_positive_map"]
             pred = data_sample['pred_instances']
             result['img_id'] = data_sample['img_id']
