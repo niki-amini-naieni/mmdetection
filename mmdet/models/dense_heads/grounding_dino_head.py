@@ -450,6 +450,8 @@ class GroundingDINOHead(DINOHead):
         results.scores = scores
         results.labels = det_labels
         results.pred_logits = logits
+        print("token_positive_maps: " + str(token_positive_maps))
+        print("token_positive_maps.shape: " + str(token_positive_maps.shape))
         results.pos_token_map = token_positive_maps
         return results
 
