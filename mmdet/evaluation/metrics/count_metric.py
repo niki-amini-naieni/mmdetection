@@ -403,8 +403,8 @@ class CountMetric(BaseMetric):
                 contain annotations and predictions.
         """
         for data_sample in data_samples:
-            result['token_positive_map'] = data_sample["token_positive_map"]
             result = dict()
+            result['token_positive_map'] = data_sample["token_positive_map"]
             pred = data_sample['pred_instances']
             result['img_id'] = data_sample['img_id']
             result['bboxes'] = pred['bboxes'].cpu().numpy()
