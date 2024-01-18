@@ -230,7 +230,7 @@ class CountMetric(BaseMetric):
             pred_cnt = pred_logits.shape[0]
             print("pred_cnt: " + str(pred_cnt))
 
-            gt_cnt = len(gt_dict['anns'])
+            gt_cnt = gt_dict['count']
             print("gt_cnt: " + str(gt_cnt))
 
             abs_errs.append(np.abs(gt_cnt - pred_cnt))
@@ -405,8 +405,6 @@ class CountMetric(BaseMetric):
         """
         for data_sample in data_samples:
             result = dict()
-            print("gt_instances: " + str(data_sample['gt_instances']))
-            print("gt_labels: " + str(data_sample['gt_instances']['labels']))
             result['token_positive_map'] = data_sample["token_positive_map"]
             pred = data_sample['pred_instances']
             result['img_id'] = data_sample['img_id']
@@ -428,6 +426,7 @@ class CountMetric(BaseMetric):
             gt['width'] = data_sample['ori_shape'][1]
             gt['height'] = data_sample['ori_shape'][0]
             gt['img_id'] = data_sample['img_id']
+            gt['count'] = len(data_sample['gt_instances']['labels'])
             if self._coco_api is None:
                 # TODO: Need to refactor to support LoadAnnotations
                 assert 'instances' in data_sample, \
