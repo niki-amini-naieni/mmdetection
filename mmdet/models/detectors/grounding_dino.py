@@ -184,12 +184,6 @@ class GroundingDINO(DINO):
                 self.decoder.num_layers].max_text_len)
         positive_map_label_to_token = create_positive_map_label_to_token(
             positive_map, plus=1)
-        print("positive_map:")
-        print(positive_map)
-        print("tokenized:")
-        print(tokenized)
-        print("tokens positive")
-        print(tokens_positive)
         return positive_map_label_to_token, positive_map
 
     def get_tokens_positive_and_prompts(
@@ -477,9 +471,7 @@ class GroundingDINO(DINO):
                     positive_maps.append(positive_map)
                     new_text_prompts.append(caption_string)
 
-        print("new_text_prompts: " + str(new_text_prompts))
         text_dict = self.language_model(new_text_prompts)
-        print("text_dict[embedded].shape: " + str(text_dict['embedded'].shape))
         if self.text_feat_map is not None:
             text_dict['embedded'] = self.text_feat_map(text_dict['embedded'])
 

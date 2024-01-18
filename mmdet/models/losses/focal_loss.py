@@ -33,8 +33,6 @@ def py_sigmoid_focal_loss(pred,
         avg_factor (int, optional): Average factor that is used to average
             the loss. Defaults to None.
     """
-    print("loss pred.shape: " + str(pred.shape))
-    print("loss target.shape: " + str(target.shape))
     pred_sigmoid = pred.sigmoid()
     target = target.type_as(pred)
     # Actually, pt here denotes (1 - pt) in the Focal Loss paper

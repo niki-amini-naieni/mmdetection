@@ -354,6 +354,7 @@ class CountMetric(BaseMetric):
                 contain annotations and predictions.
         """
         for data_sample in data_samples:
+            print(data_sample)
             result = dict()
             pred = data_sample['pred_instances']
             result['img_id'] = data_sample['img_id']
@@ -397,8 +398,6 @@ class CountMetric(BaseMetric):
 
         # split gt and prediction list
         gts, preds = zip(*results)
-        print("GT: " + str(gts))
-        print("Preds: " + str(preds))
 
         tmp_dir = None
         if self.outfile_prefix is None:

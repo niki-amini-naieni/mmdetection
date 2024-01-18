@@ -71,8 +71,6 @@ class ContrastiveEmbed(nn.Module):
         Returns:
             Tensor: Classification score.
         """
-        print("visual_feat.shape: " + str(visual_feat.shape))
-        print("text_feat.shape: " + str(text_feat.shape))
         res = visual_feat @ text_feat.transpose(-1, -2)
         if isinstance(self.log_scale, nn.Parameter):
             res = res * self.log_scale.exp()
@@ -250,7 +248,6 @@ class GroundingDINOHead(DINOHead):
               h), has shape (num_decoder_layers, bs, num_queries, 4) with the
               last dimension arranged as (cx, cy, w, h).
         """
-        print("hidden_states.shape: " + str(hidden_states.shape))
         all_layers_outputs_classes = []
         all_layers_outputs_coords = []
 
@@ -420,9 +417,7 @@ class GroundingDINOHead(DINOHead):
         max_per_img = self.test_cfg.get('max_per_img', len(cls_score))
         print("max_per_img: " + str(max_per_img))
         img_shape = img_meta['img_shape']
-        print("logits (pre-cls score): " + str(cls_score))
         print("logits (pre-cls score).shape: " + str(cls_score.shape))
-        print("token_positive_maps: " + str(token_positive_maps))
         logits = cls_score
         if token_positive_maps is not None:
             cls_score = convert_grounding_to_cls_scores(
