@@ -397,6 +397,8 @@ class CountMetric(BaseMetric):
 
         # split gt and prediction list
         gts, preds = zip(*results)
+        print("GT: " + str(gts))
+        print("Preds: " + str(preds))
 
         tmp_dir = None
         if self.outfile_prefix is None:

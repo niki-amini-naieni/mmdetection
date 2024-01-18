@@ -423,6 +423,7 @@ class GroundingDINOHead(DINOHead):
         print("logits (pre-cls score): " + str(cls_score))
         print("logits (pre-cls score).shape: " + str(cls_score.shape))
         print("token_positive_maps: " + str(token_positive_maps))
+        logits = cls_score
         if token_positive_maps is not None:
             cls_score = convert_grounding_to_cls_scores(
                 logits=cls_score.sigmoid()[None],
@@ -453,6 +454,7 @@ class GroundingDINOHead(DINOHead):
         results.bboxes = det_bboxes
         results.scores = scores
         results.labels = det_labels
+        results.pred_logits = logits
         return results
 
     def loss(self, hidden_states: Tensor, references: List[Tensor],
