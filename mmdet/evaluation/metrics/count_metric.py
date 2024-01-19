@@ -215,7 +215,6 @@ class CountMetric(BaseMetric):
             #cls_tokens = pred_logits[:, 0]
             cls_tokens = pred_logits.max(axis=1)
             print("cls_tokens.shape (pre thresh): " + str(cls_tokens.shape))
-            print("cls_tokens: " + str(cls_tokens))
             mask_cls = cls_tokens > 0.25
             pred_logits = pred_logits[mask_cls, :]
             print("pred_logits.shape (post cls thresh): " + str(pred_logits.shape))
@@ -452,7 +451,11 @@ class CountMetric(BaseMetric):
         # split gt and prediction list
         gts, preds = zip(*results)
 
-        print(self.get_cnt_errs(gts, preds))
+        cnt_errs = self.get_cnt_errs(gts, preds)
+        count_mae = np.mean(cnt_errs)
+        count_rmse = np.root(np.mean(cnt_errs ** 2))
+        print("Count MAE " + str(count_mae))
+        print("Count RMSE: " + str(count_rmse))
 
         tmp_dir = None
         if self.outfile_prefix is None:
