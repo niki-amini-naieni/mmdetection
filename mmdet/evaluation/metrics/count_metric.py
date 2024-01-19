@@ -207,6 +207,7 @@ class CountMetric(BaseMetric):
             pred_dict = preds[sample_ind]
 
             text_token_map = pred_dict['token_positive_map']
+            print("text_token_map: " + str(text_token_map))
 
             pred_logits = pred_dict['pred_logits']
 
