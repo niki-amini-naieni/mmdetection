@@ -209,29 +209,21 @@ class CountMetric(BaseMetric):
             text_token_map = pred_dict['token_positive_map']
 
             pred_logits = pred_dict['pred_logits']
-            print("pred_logits.shape: " + str(pred_logits.shape))
 
             # Threshold by CLS token.
             #cls_tokens = pred_logits[:, 0]
             cls_tokens = pred_logits.max(axis=1)
-            print("cls_tokens.shape (pre thresh): " + str(cls_tokens.shape))
             mask_cls = cls_tokens > 0.25
             pred_logits = pred_logits[mask_cls, :]
-            print("pred_logits.shape (post cls thresh): " + str(pred_logits.shape))
 
             # Threshold by text tokens.
             pred_logits = pred_logits[:, text_token_map[1]]
-            print("text_tokens.shape: " + str(pred_logits.shape))
             mask_text = (pred_logits > 0.35).sum(axis=1) == pred_logits.shape[1]
-            print("mask_text.shape: " + str(mask_text.shape))
             pred_logits = pred_logits[mask_text, :]
-            print("pred_logits.shape (post text thresh): " + str(pred_logits.shape))
 
             pred_cnt = pred_logits.shape[0]
-            print("pred_cnt: " + str(pred_cnt))
 
             gt_cnt = gt_dict['count']
-            print("gt_cnt: " + str(gt_cnt))
 
             abs_errs.append(np.abs(gt_cnt - pred_cnt))
 
