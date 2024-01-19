@@ -533,6 +533,7 @@ class GroundingDINO(DINO):
         # image feature extraction
         visual_feats = self.extract_feat(batch_inputs)
 
+        print("text_prompts before ifinstance: " + str(text_prompts))
         if isinstance(text_prompts[0], list):
             # chunked text prompts, only bs=1 is supported
             assert len(batch_inputs) == 1
