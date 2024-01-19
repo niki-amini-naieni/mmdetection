@@ -1,7 +1,7 @@
 _base_ = 'grounding_dino_swin-t_finetune_16xb2_1x_coco.py'
 # https://mmengine.readthedocs.io/en/latest/advanced_tutorials/config.html#inheritance-between-configuration-files
 custom_imports=dict(
-    imports=['mmdet.models.losses.loc_loss'])
+    imports=['mmdet.models.losses.loc_loss', 'mmdet.evaluation.metrics.count_metric'])
 
 data_root = 'data/fsc147_grounding_dino/'
 class_names = ('alcohol bottle', 'ant', 'apple', 'baguette roll', 'ball', 'banana', 'bead', 'bee', 'bird', 'birthday candle', 'biscuit', 'boat', 'book', 'bottle', 'bottle cap', 'bowl', 'box', 'bread roll', 'brick', 'buffalo', 'bullet', 'bun', 'calamari ring', 'camel', 'can', 'candle', 'candy piece', 'cap', 'car', 'carrom board piece', 'cartridge', 'cashew nut', 'cassette', 'cement bag', 'cereal', 'chair', 'chewing gum piece', 'chicken wing', 'chopstick', 'clam', 'coffee bean', 'coin', 'comic book', 'cotton ball', 'cow', 'crab cake', 'crane', 'crayon', 'croissant', 'crow', 'cup', 'cupcake', 'cupcake holder', 'deer', 'donut', 'donut holder', 'egg', 'elephant', 'finger food', 'fish', 'flamingo', 'flower', 'flower pot', 'fresh cut', 'gemstone', 'go game', 'goat', 'goldfish snack', 'goose', 'grape', 'green pea', 'horse', 'hot air balloon', 'ice cream', 'ice cream cone', 'instant noodle', 'jade stone', 'jeans', 'keyboard key', 'kidney bean', 'kitchen towel', 'kiwi', 'lego', 'lighter', 'lipstick', 'm&m piece', 'macaron', 'marble', 'marker', 'match', 'meat skewer', 'milk carton', 'mini blind', 'mosaic tile', 'naan bread', 'nail', 'nail polish', 'nut', 'onion ring', 'orange', 'oyster', 'oyster shell', 'peach', 'pearl', 'pen', 'pencil', 'penguin', 'pepper', 'person', 'pigeon', 'pill', 'plate', 'polka dot', 'polka dot tile', 'potato', 'potato chip', 'prawn cracker', 'red bean', 'rice bag', 'roof tile', 'round dessert', 'sauce bottle', 'sausage', 'screw', 'sea shell', 'seagull', 'shallot', 'sheep', 'shirt', 'shoe', 'skateboard', 'ski', 'spoon', 'spring roll', 'stair', 'stamp', 'stapler pin', 'sticky note', 'straw', 'strawberry', 'sunglass', 'supermarket shelf', 'swan', 'toilet paper roll', 'tomato', 'tree log', 'watch', 'watermelon', 'window', 'zebra')
@@ -28,7 +28,8 @@ model = dict(bbox_head=dict(
                 match_costs=[
                     dict(type='BinaryFocalLossCost', weight=5.0),
                     dict(type='LocCost', weight=1.0, box_format='xywh')
-                ]))
+                ])),
+    test_cfg=dict(max_per_img=900)
 )
 
 train_dataloader = dict(
@@ -52,8 +53,8 @@ test_dataloader = dict(
         ann_file='annotations/test.json',
         data_prefix=dict(img='images/')))
 
-val_evaluator = dict(ann_file=data_root + 'annotations/val.json')
-test_evaluator = dict(ann_file=data_root + 'annotations/test.json')
+val_evaluator = dict(type='CountMetric', ann_file=data_root + 'annotations/val.json')
+test_evaluator = dict(type='CountMetric', ann_file=data_root + 'annotations/test.json')
 
 max_epoch = 20
 

@@ -51,11 +51,6 @@ test_dataloader = val_dataloader
 val_evaluator = dict(type='CountMetric', ann_file=data_root + 'annotations/test.json')
 test_evaluator = val_evaluator
 
-val_evaluator = dict(
-    type='CountMetric',
-    ann_file=data_root + 'annotations/test.json')
-test_evaluator = val_evaluator
-
 max_epoch = 20
 
 default_hooks = dict(
