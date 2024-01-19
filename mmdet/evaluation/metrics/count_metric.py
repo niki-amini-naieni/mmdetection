@@ -453,7 +453,7 @@ class CountMetric(BaseMetric):
 
         cnt_errs = self.get_cnt_errs(gts, preds)
         count_mae = np.mean(cnt_errs)
-        count_rmse = np.root(np.mean(cnt_errs ** 2))
+        count_rmse = np.sqrt(np.mean(cnt_errs ** 2))
         print("Count MAE " + str(count_mae))
         print("Count RMSE: " + str(count_rmse))
 
