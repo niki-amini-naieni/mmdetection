@@ -504,6 +504,7 @@ class GroundingDINO(DINO):
                 enhanced_text_prompts.append(None)
             tokens_positives.append(data_samples.get('tokens_positive', None))
 
+        print("text prompts before tokens positive and prompts: " + str(text_prompts))
         if 'custom_entities' in batch_data_samples[0]:
             # Assuming that the `custom_entities` flag
             # inside a batch is always the same. For single image inference
@@ -530,10 +531,11 @@ class GroundingDINO(DINO):
         token_positive_maps, text_prompts, _, entities = zip(
             *_positive_maps_and_prompts)
 
+        print("text prompts after tokens positive and prompts: " + str(text_prompts))
+
         # image feature extraction
         visual_feats = self.extract_feat(batch_inputs)
 
-        print("text_prompts before ifinstance: " + str(text_prompts))
         if isinstance(text_prompts[0], list):
             # chunked text prompts, only bs=1 is supported
             assert len(batch_inputs) == 1
