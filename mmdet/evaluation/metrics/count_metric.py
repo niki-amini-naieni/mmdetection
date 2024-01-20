@@ -221,7 +221,7 @@ class CountMetric(BaseMetric):
 
             # Threshold by text tokens.
             # Choose the scores for the tokens from the only class being detected.
-            pred_logits = pred_logits[:, [text_token_map[label] for label in gt_dict['labels']]]
+            pred_logits = pred_logits[:, [text_token_map[label.item()] for label in gt_dict['labels']]]
 
             print("post text slice logits shape: " + str(pred_logits.shape))
             mask_text = (pred_logits > 0.35).sum(axis=1) == pred_logits.shape[1]
