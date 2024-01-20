@@ -4,13 +4,21 @@ custom_imports=dict(
     imports=['mmdet.models.losses.loc_loss', 'mmdet.evaluation.metrics.count_metric'])
 
 data_root = 'data/fsc147_grounding_dino/'
-class_names = ('alcohol bottle', 'baguette roll', 'ball', 'banana', 'bead', 'bee', 'birthday candle', 'biscuit', 'boat', 'bottle', 'bowl', 'box', 'bread roll', 'brick', 'buffalo', 'bun', 'calamari ring', 'can', 'candle', 'cap', 'car', 'cartridge', 'cassette', 'cement bag', 'cereal', 'chewing gum piece', 'chopstick', 'clam', 'coffee bean', 'coin', 'cotton ball', 'cow', 'crane', 'crayon', 'croissant', 'crow', 'cup', 'cupcake', 'cupcake holder', 'fish', 'gemstone', 'go game', 'goat', 'goldfish snack', 'goose', 'ice cream', 'ice cream cone', 'instant noodle', 'jade stone', 'jeans', 'kidney bean', 'kitchen towel', 'lighter', 'lipstick', 'm&m piece', 'macaron', 'match', 'meat skewer', 'mini blind', 'mosaic tile', 'naan bread', 'nail', 'nut', 'onion ring', 'orange', 'pearl', 'pen', 'pencil', 'penguin', 'pepper', 'person', 'pigeon', 'plate', 'polka dot tile', 'potato', 'rice bag', 'roof tile', 'screw', 'shoe', 'spoon', 'spring roll', 'stair', 'stapler pin', 'straw', 'supermarket shelf', 'swan', 'tomato', 'watermelon', 'window', 'zebra')
-num_classes = len(class_names)
-metainfo = dict(classes=class_names)
+train_class_names = ('alcohol bottle', 'baguette roll', 'ball', 'banana', 'bead', 'bee', 'birthday candle', 'biscuit', 'boat', 'bottle', 'bowl', 'box', 'bread roll', 'brick', 'buffalo', 'bun', 'calamari ring', 'can', 'candle', 'cap', 'car', 'cartridge', 'cassette', 'cement bag', 'cereal', 'chewing gum piece', 'chopstick', 'clam', 'coffee bean', 'coin', 'cotton ball', 'cow', 'crane', 'crayon', 'croissant', 'crow', 'cup', 'cupcake', 'cupcake holder', 'fish', 'gemstone', 'go game', 'goat', 'goldfish snack', 'goose', 'ice cream', 'ice cream cone', 'instant noodle', 'jade stone', 'jeans', 'kidney bean', 'kitchen towel', 'lighter', 'lipstick', 'm&m piece', 'macaron', 'match', 'meat skewer', 'mini blind', 'mosaic tile', 'naan bread', 'nail', 'nut', 'onion ring', 'orange', 'pearl', 'pen', 'pencil', 'penguin', 'pepper', 'person', 'pigeon', 'plate', 'polka dot tile', 'potato', 'rice bag', 'roof tile', 'screw', 'shoe', 'spoon', 'spring roll', 'stair', 'stapler pin', 'straw', 'supermarket shelf', 'swan', 'tomato', 'watermelon', 'window', 'zebra')
+num_train_classes = len(train_class_names)
+train_metainfo = dict(classes=train_class_names)
+
+val_class_names = ('ant', 'bird', 'book', 'bottle cap', 'bullet', 'camel', 'chair', 'chicken wing', 'donut', 'donut holder', 'flamingo', 'flower', 'flower pot', 'fresh cut', 'grape', 'horse', 'kiwi', 'milk carton', 'oyster', 'oyster shell', 'peach', 'pill', 'polka dot', 'prawn cracker', 'sausage', 'seagull', 'shallot', 'shirt', 'skateboard', 'toilet paper roll')
+num_val_classes = len(val_class_names)
+val_metainfo = dict(classes=val_class_names)
+
+test_class_names = ('apple', 'candy piece', 'carrom board piece', 'cashew nut', 'comic book', 'crab cake', 'deer', 'egg', 'elephant', 'finger food', 'green pea', 'hot air balloon', 'keyboard key', 'lego', 'marble', 'marker', 'nail polish', 'potato chip', 'red bean', 'round dessert', 'sauce bottle', 'sea shell', 'sheep', 'ski', 'stamp', 'sticky note', 'strawberry', 'sunglass', 'tree log', 'watch')
+num_test_classes = len(test_class_names)
+test_metainfo = dict(classes=test_class_names)
 
 model = dict(bbox_head=dict(
         type='GroundingDINOHead',
-        num_classes=num_classes,
+        num_classes=num_train_classes,
         sync_cls_avg_factor=True,
         contrastive_cfg=dict(max_text_len=256, log_scale=0.0, bias=False),
         loss_cls=dict(
@@ -35,21 +43,21 @@ model = dict(bbox_head=dict(
 train_dataloader = dict(
     dataset=dict(
         data_root=data_root,
-        metainfo=metainfo,
+        metainfo=train_metainfo,
         ann_file='annotations/train.json',
         data_prefix=dict(img='images/')))
 
 val_dataloader = dict(
     dataset=dict(
         data_root=data_root,
-        metainfo=metainfo,
+        metainfo=val_metainfo,
         ann_file='annotations/val.json',
         data_prefix=dict(img='images/')))
 
 test_dataloader = dict(
     dataset=dict(
         data_root=data_root,
-        metainfo=metainfo,
+        metainfo=test_metainfo,
         ann_file='annotations/test.json',
         data_prefix=dict(img='images/')))
 
