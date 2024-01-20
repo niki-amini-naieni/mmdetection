@@ -399,7 +399,7 @@ class CountMetric(BaseMetric):
             result = dict()
             result['token_positive_map'] = data_sample["token_positive_map"]
             pred = data_sample['pred_instances']
-            print("pred['labels']: " + str(pred['labels']))
+            print("token_positive_map: " + str(result['token_positive_map']))
             result['img_id'] = data_sample['img_id']
             result['bboxes'] = pred['bboxes'].cpu().numpy()
             result['scores'] = pred['scores'].cpu().numpy()
