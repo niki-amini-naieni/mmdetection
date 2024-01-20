@@ -216,8 +216,14 @@ class CountMetric(BaseMetric):
             mask_cls = cls_tokens > 0.25
             pred_logits = pred_logits[mask_cls, :]
 
+            print("labels: " + str(gt_dict['labels']))
+            print("pre text slice logits shape: " + str(pred_logits.shape))
+
             # Threshold by text tokens.
-            pred_logits = pred_logits[:, text_token_map[1]]
+            # Choose the scores for the tokens from the only class being detected.
+            pred_logits = pred_logits[:, [text_token_map[label] for label in gt_dict['labels']]]
+
+            print("post text slice logits shape: " + str(pred_logits.shape))
             mask_text = (pred_logits > 0.35).sum(axis=1) == pred_logits.shape[1]
             pred_logits = pred_logits[mask_text, :]
 
@@ -420,6 +426,7 @@ class CountMetric(BaseMetric):
             gt['height'] = data_sample['ori_shape'][0]
             gt['img_id'] = data_sample['img_id']
             gt['count'] = len(data_sample['gt_instances']['labels'])
+            gt['labels'] = data_sample['gt_instances']['labels']
             if self._coco_api is None:
                 # TODO: Need to refactor to support LoadAnnotations
                 assert 'instances' in data_sample, \
