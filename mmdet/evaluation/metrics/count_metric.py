@@ -457,7 +457,7 @@ class CountMetric(BaseMetric):
         print("Count MAE " + str(count_mae))
         print("Count RMSE: " + str(count_rmse))
 
-        return {"count_mae": count_mae, "count_rmse": count_rmse}
+        return {"loss": count_mae}
         tmp_dir = None
         if self.outfile_prefix is None:
             tmp_dir = tempfile.TemporaryDirectory()
