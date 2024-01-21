@@ -71,12 +71,12 @@ default_hooks = dict(
     logger=dict(type='LoggerHook', interval=5))
 train_cfg = dict(max_epochs=max_epoch, val_interval=1)
 
-#optim_wrapper = dict(
-#    optimizer=dict(lr=0.00005),
-#    paramwise_cfg=dict(
-#        custom_keys={
-#            'absolute_pos_embed': dict(decay_mult=0.),
-#            'backbone': dict(lr_mult=0),
-#            'language_model': dict(lr_mult=0),
-#        }))
-optim_wrapper = dict(optimizer=dict(lr=0.00005))
+optim_wrapper = dict(
+    optimizer=dict(lr=0.00005),
+    paramwise_cfg=dict(
+        custom_keys={
+            'absolute_pos_embed': dict(decay_mult=0.),
+            'backbone': dict(lr_mult=0),
+            'language_model': dict(lr_mult=0),
+        }))
+#optim_wrapper = dict(optimizer=dict(lr=0.00005))
