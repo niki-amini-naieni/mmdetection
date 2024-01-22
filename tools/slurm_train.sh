@@ -12,12 +12,6 @@ CPUS_PER_TASK=${CPUS_PER_TASK:-5}
 SRUN_ARGS=${SRUN_ARGS:-""}
 PY_ARGS=${@:5}
 
-cp fsc147.zip $TMPDIR
-cd $TMPDIR
-unzip fsc147.zip
-
-cd /users/nikian/mmdetection
-
 PYTHONPATH="$(dirname $0)/..":$PYTHONPATH \
 srun -p ${PARTITION} \
     --job-name=${JOB_NAME} \
