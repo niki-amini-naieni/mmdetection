@@ -2,8 +2,10 @@ _base_ = 'grounding_dino_swin-t_finetune_16xb2_1x_coco.py'
 # https://mmengine.readthedocs.io/en/latest/advanced_tutorials/config.html#inheritance-between-configuration-files
 custom_imports=dict(
     imports=['mmdet.models.losses.loc_loss', 'mmdet.evaluation.metrics.count_metric'])
+import tempfile
+tempdir = tempfile.gettempdir()
 
-data_root = 'data/fsc147_grounding_dino/'
+data_root = tempdir + '/fsc147/'
 train_class_names = ('alcohol bottle', 'baguette roll', 'ball', 'banana', 'bead', 'bee', 'birthday candle', 'biscuit', 'boat', 'bottle', 'bowl', 'box', 'bread roll', 'brick', 'buffalo', 'bun', 'calamari ring', 'can', 'candle', 'cap', 'car', 'cartridge', 'cassette', 'cement bag', 'cereal', 'chewing gum piece', 'chopstick', 'clam', 'coffee bean', 'coin', 'cotton ball', 'cow', 'crane', 'crayon', 'croissant', 'crow', 'cup', 'cupcake', 'cupcake holder', 'fish', 'gemstone', 'go game piece', 'goat', 'goldfish snack', 'goose', 'ice cream', 'ice cream cone', 'instant noodle', 'jade stone', 'jeans', 'kidney bean', 'kitchen towel', 'lighter', 'lipstick', 'm&m piece', 'macaron', 'match', 'meat skewer', 'mini blind', 'mosaic tile', 'naan bread', 'nail', 'nut', 'onion ring', 'orange', 'pearl', 'pen', 'pencil', 'penguin', 'pepper', 'person', 'pigeon', 'plate', 'polka dot tile', 'potato', 'rice bag', 'roof tile', 'screw', 'shoe', 'spoon', 'spring roll', 'stair', 'stapler pin', 'straw', 'supermarket shelf', 'swan', 'tomato', 'watermelon', 'window', 'zebra')
 num_train_classes = len(train_class_names)
 train_metainfo = dict(classes=train_class_names)

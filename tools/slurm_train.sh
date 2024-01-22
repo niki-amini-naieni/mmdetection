@@ -6,16 +6,22 @@ PARTITION=$1
 JOB_NAME=$2
 CONFIG=$3
 WORK_DIR=$4
-GPUS=${GPUS:-8}
-GPUS_PER_NODE=${GPUS_PER_NODE:-8}
+GPUS=${GPUS:-4}
+GPUS_PER_NODE=${GPUS_PER_NODE:-4}
 CPUS_PER_TASK=${CPUS_PER_TASK:-5}
 SRUN_ARGS=${SRUN_ARGS:-""}
 PY_ARGS=${@:5}
 
+cp fsc147.zip $TMPDIR
+cd $TMPDIR
+unzip fsc147.zip
+
+cd /users/nikian/mmdetection
+
 PYTHONPATH="$(dirname $0)/..":$PYTHONPATH \
 srun -p ${PARTITION} \
     --job-name=${JOB_NAME} \
-    --gres=gpu:${GPUS_PER_NODE} \
+    --gpus=rtx6k:4 \
     --ntasks=${GPUS} \
     --ntasks-per-node=${GPUS_PER_NODE} \
     --cpus-per-task=${CPUS_PER_TASK} \
